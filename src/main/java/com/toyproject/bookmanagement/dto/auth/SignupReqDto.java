@@ -3,6 +3,8 @@ package com.toyproject.bookmanagement.dto.auth;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Pattern;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import com.toyproject.bookmanagement.entity.User;
 
 import lombok.Data;
@@ -23,10 +25,10 @@ public class SignupReqDto {
 	private String name;
 	public User toentity() {
 		return User.builder()
-				.userId(0)
 				.email(email)
-				.password(password)
+				.password(new BCryptPasswordEncoder().encode(password))
 				.name(name)
+				.Provider("")
 				.build();
 	}
 }

@@ -9,6 +9,6 @@ import com.toyproject.bookmanagement.entity.User;
 
 @Mapper
 public interface UserRepository {
-
 	public User findUserByEmail(String email);
+	public int saveUser(User user);
 }

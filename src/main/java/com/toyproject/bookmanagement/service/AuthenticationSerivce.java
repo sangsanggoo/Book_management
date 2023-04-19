@@ -22,8 +22,8 @@ public class AuthenticationSerivce {
 			throw new CustomException("duplicated", ErrorMap.builder().put("email", "사용중인 email입니다.").build());
 		}
 	}
-	public void registUser(SignupReqDto signupReqDto) {
-
+	public void signup(SignupReqDto signupReqDto) {
+		userRepository.saveUser(signupReqDto.toentity());
 	}
  
 	

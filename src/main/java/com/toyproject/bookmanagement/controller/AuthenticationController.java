@@ -32,7 +32,7 @@ public class AuthenticationController {
 	@PostMapping("/signup")
 	public ResponseEntity<?> signup(@Valid @RequestBody SignupReqDto signupReqDto,BindingResult bindingResult) throws Exception  {
 		authenticationSerivce.checkduplicatedEmail(signupReqDto.getEmail());
-
+		authenticationSerivce.signup(signupReqDto);
 		return ResponseEntity.ok().body(null);
 	}
 }
