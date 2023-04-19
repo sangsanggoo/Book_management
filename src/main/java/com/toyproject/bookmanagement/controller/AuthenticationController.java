@@ -12,11 +12,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.toyproject.bookmanagement.aop.annotation.ValidAspect;
 import com.toyproject.bookmanagement.dto.auth.SignupReqDto;
+import com.toyproject.bookmanagement.service.AuthenticationSerivce;
+
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/auth") //모든 요청은 앞에 /auth가 붙음 
+@RequiredArgsConstructor
 public class AuthenticationController {
-	
+	private final AuthenticationSerivce authenticationSerivce;
 	
 	@PostMapping("/login")
 	public ResponseEntity<?> login() {
@@ -26,8 +30,9 @@ public class AuthenticationController {
 	@CrossOrigin
 	@ValidAspect
 	@PostMapping("/signup")
-	public ResponseEntity<?> signup(@Valid @RequestBody SignupReqDto signupReqDto,BindingResult bindingResult) {
-		
+	public ResponseEntity<?> signup(@Valid @RequestBody SignupReqDto signupReqDto,BindingResult bindingResult) throws Exception  {
+		authenticationSerivce.checkduplicatedEmail(signupReqDto.getEmail());
+
 		return ResponseEntity.ok().body(null);
 	}
 }

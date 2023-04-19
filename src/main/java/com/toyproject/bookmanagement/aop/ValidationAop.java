@@ -30,12 +30,12 @@ public class ValidationAop {
 			}
 		}
 		if (bindingResult.hasErrors()) {
-			Map<String, String> errorMap = new HashMap<>();
+			Map<String, String> errorData = new HashMap<>();
 			bindingResult.getFieldErrors().forEach(error -> {
-				errorMap.put(error.getField(),error.getDefaultMessage());
+				errorData.put(error.getField(),error.getDefaultMessage());
 			});
 			
-			throw new CustomException("validation Failed",errorMap);
+			throw new CustomException("validation Failed",errorData);
 		}
 		
 		return joinPoint.proceed();
