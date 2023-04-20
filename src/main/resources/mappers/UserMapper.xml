@@ -48,10 +48,35 @@
 	<insert id="saveUser" 
 	parameterType="com.toyproject.bookmanagement.entity.User"
 	useGeneratedKeys="true"
-	keyProperty="user_id ">
+	keyProperty="userId">
 		insert into user_tb
 		values(0 , #{email}, #{password},#{name},#{provider});
 	</insert>
 	
+	<insert id="saveAuthority"
+	parameterType="com.toyproject.bookmanagement.entity.Authority">
+	insert into authority_tb
+	values(0, #{userId},#{roleId})
+	</insert>
+	
+	<select id="Login" resultMap="userMap" >
+			select
+			ut.user_id,
+		    ut.email,
+		    ut.password,
+			ut.name,
+			ut.provider,
+            ath.authority_id,
+            ath.user_id,
+            ath.role_id,
+            rt.role_id,
+            rt.role_name
+		from
+			user_tb ut
+			left outer join authority_tb ath on(ath.user_id = ut.user_id)
+		    left outer join role_tb rt on(rt.role_id = ath.role_id)
+		where
+			ut.email = #{email} and ut.password = #{password};
+	</select>
 
 </mapper>

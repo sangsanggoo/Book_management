@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.toyproject.bookmanagement.aop.annotation.ValidAspect;
+import com.toyproject.bookmanagement.dto.auth.LoginReqDto;
 import com.toyproject.bookmanagement.dto.auth.SignupReqDto;
 import com.toyproject.bookmanagement.service.AuthenticationSerivce;
 
@@ -21,19 +22,22 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AuthenticationController {
 	private final AuthenticationSerivce authenticationSerivce;
-	
-	@PostMapping("/login")
-	public ResponseEntity<?> login() {
-		return ResponseEntity.ok().body(null);
-	}
+
 	//CORS 열어주는거임
-	@CrossOrigin
+
 	@ValidAspect
-	@PostMapping("/signup")
-	public ResponseEntity<?> signup(@Valid @RequestBody SignupReqDto signupReqDto,BindingResult bindingResult) throws Exception  {
+	@PostMapping("/register")
+	public ResponseEntity<?> signup(@Valid @RequestBody SignupReqDto signupReqDto,BindingResult bindingResult)    {
 		authenticationSerivce.checkduplicatedEmail(signupReqDto.getEmail());
 		authenticationSerivce.signup(signupReqDto);
-		return ResponseEntity.ok().body(null);
+
+		return ResponseEntity.ok().body(true);
+	}
+	@ValidAspect
+	@PostMapping("/login")
+	public ResponseEntity<?> login(@Valid @RequestBody LoginReqDto loginReqDto,BindingResult bindingResult) {
+		System.out.println(authenticationSerivce.signin(loginReqDto));
+		return ResponseEntity.ok().body(authenticationSerivce.signin(loginReqDto));
 	}
 }
 
