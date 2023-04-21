@@ -5,6 +5,7 @@ import javax.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,9 +37,16 @@ public class AuthenticationController {
 	@ValidAspect
 	@PostMapping("/login")
 	public ResponseEntity<?> login(@Valid @RequestBody LoginReqDto loginReqDto,BindingResult bindingResult) {
-		System.out.println(authenticationSerivce.signin(loginReqDto));
+//		System.out.println(authenticationSerivce.signin(loginReqDto));
 		return ResponseEntity.ok().body(authenticationSerivce.signin(loginReqDto));
 	}
+	
+	@GetMapping("/authenticated")
+	public ResponseEntity<?> authenticated(String accessToken) {
+		System.out.println(accessToken);
+		return ResponseEntity.ok().body(authenticationSerivce.authenticated(accessToken));
+	}
+	
 }
 
 
