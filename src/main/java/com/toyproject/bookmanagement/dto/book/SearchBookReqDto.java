@@ -9,5 +9,5 @@ import lombok.Data;
 public class SearchBookReqDto {
 	private int page;
 	private String searchValue;
-	private List<Integer> catetoryIds;
+	private List<Integer> categoryIds;
 }
