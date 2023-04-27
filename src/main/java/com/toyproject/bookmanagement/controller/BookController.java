@@ -54,10 +54,6 @@ public class BookController {
 	      return ResponseEntity.ok().body(bookService.setLike(bookId, requestMap.get("userId")));
 	   }
 	
-	@PostMapping("book/${bookId}/rental")
-	public ResponseEntity<?> rentalBook(@PathVariable int bookId , @RequestBody Map<String, Integer> requestMap) {
-		return 
-	}
 	@DeleteMapping("/book/{bookId}/like")
 	public ResponseEntity<?> disLike(@PathVariable int bookId, int userId) {
 		return ResponseEntity.ok().body(bookService.disLike(bookId, userId));
@@ -67,6 +63,15 @@ public class BookController {
 	public ResponseEntity<?> getRentalList(@PathVariable int bookId) { 
 		System.out.println(bookId);
 		return ResponseEntity.ok().body(bookService.getRentalListByBookId(bookId));
+	}
+	@PostMapping("book/rental/{bookListId}")
+	public ResponseEntity<?> rentalBook(@PathVariable int bookListId, @RequestBody Map<String, Integer> requestMap) {
+		System.out.println(requestMap);
+		return ResponseEntity.ok().body(bookService.rentalBook( bookListId,requestMap.get("userId")));
+	}
+	@DeleteMapping("book/return/{bookListId}")
+	public ResponseEntity<?> returnBook(@PathVariable int bookListId, int userId) {
+		return ResponseEntity.ok().body(bookService.returnBook(bookListId, userId));
 	}
 	
 }
