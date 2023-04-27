@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.toyproject.bookmanagement.dto.book.CategoryRespDto;
 import com.toyproject.bookmanagement.dto.book.GetBookRespDto;
+import com.toyproject.bookmanagement.dto.book.RentalListRespDto;
 import com.toyproject.bookmanagement.dto.book.SearchBookReqDto;
 import com.toyproject.bookmanagement.dto.book.SearchBookRespDto;
 import com.toyproject.bookmanagement.entity.Category;
@@ -26,17 +27,18 @@ public class BookService {
 	private final UserRepository userRepository;
 	
 	public GetBookRespDto getBook(int bookId) {
+//		System.out.println(bookRepository.getBook(bookId).toGetBookDto());
 		return bookRepository.getBook(bookId).toGetBookDto();
 	}
 	public Map<String,Object> searchBooks(SearchBookReqDto searchBookReqDto) {
-		System.out.println(searchBookReqDto);
+//		System.out.println(searchBookReqDto);
 		List<SearchBookRespDto> list = new ArrayList<>();
 		int index = (searchBookReqDto.getPage() -1)*20;
 		Map<String, Object> map = new HashMap<>();
 		map.put("index", index);
 		map.put("categoryIds", searchBookReqDto.getCategoryIds());
 		map.put("searchValue", searchBookReqDto.getSearchValue());
-		System.out.println(map);
+//		System.out.println(map);
 		bookRepository.searchBooks(map).forEach(book -> {
 			list.add(book.todto());
 		});;
@@ -65,6 +67,26 @@ public class BookService {
 		User userEntity = userRepository.findUserByEmail(email);
 		map.put("userId", userEntity.getUserId());
 		return bookRepository.getLikeStatus(map);
+	}
+	public int setLike(int bookId, int userId) {
+		Map<String,Object> map = new HashMap<>();
+		map.put("bookId", bookId);
+		map.put("userId", userId);
+		return bookRepository.setLike(map);
+	}
+	public int disLike(int bookId, int userId) {
+		Map<String,Object> map = new HashMap<>();
+		map.put("bookId", bookId);
+		map.put("userId", userId);
+		return bookRepository.disLike(map);
+	}
+	
+	public List<RentalListRespDto> getRentalListByBookId(int bookId) {
+		List<RentalListRespDto> list = new ArrayList<>();
+		bookRepository.getRentalListByBookId(bookId).forEach(rentalData -> {
+			list.add(rentalData.toDto());
+		});
+		return list;
 	}
 
 }
