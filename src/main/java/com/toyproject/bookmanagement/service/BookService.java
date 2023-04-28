@@ -100,5 +100,8 @@ public class BookService {
 		map.put("userId", userId);
 		return bookRepository.returnBook(map);
 	}
+	public int registeBookList(int bookId) {
+		return bookRepository.registerBookList(bookId);
+	}
 
 }
