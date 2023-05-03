@@ -1,0 +1,133 @@
+/** @jsxImportSource @emotion/react */
+import { css } from '@emotion/react'
+import React, { useState } from 'react';
+import App from './../App';
+import axios from 'axios';
+import { Navigate, useNavigate } from 'react-router-dom';
+
+const mainContainer = css`
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+    padding: 20px;
+
+`
+const header = css`
+    margin-top: 100px;
+    margin-bottom: 50px;
+    width: 100%;
+`
+const loginText = css`
+    font-size: 60px;
+    font-weight: 600;
+`
+const main = css`
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 40%;
+    width: 100%;
+`
+const idInput =css`
+    border: 1px solid #dbdbdb;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    height: 40px;
+    width: 250px;
+
+`
+const passwordInput = css`
+    border: 1px solid #dbdbdb;
+    border-radius: 8px;
+    margin-bottom: 5px;
+    height: 40px;
+    width: 250px;
+`
+
+const footer = css`
+    display: flex;
+    margin: 0 auto;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 35%;
+    width: 100%
+`
+
+const forgot =css`
+    border: 0px;
+    font-size: 14px;
+    font-weight: 600;
+
+
+    background-color: white;
+    padding-left: 115px;
+    cursor: pointer;
+    &:hover{
+        color: blue;
+        text-decoration: underline;
+    }
+    
+`
+const loginButton = css`
+    border: 1px solid #dbdbdb;
+    border-radius: 7px;
+    width: 200px;
+    height: 40px;
+    background-color: white;
+    cursor: pointer;
+    &:hover{
+        background-color: #dbdbdb;
+    }
+    &:active{
+        background-color: #eee;
+    }
+`
+const Login = () => {
+    const [ loginuser , setUser ] = useState({username : "" , password : ""})
+    const navigete = useNavigate();
+
+    const forgotHandleSubmit = () => {
+        navigete("/forgot");
+    }
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setUser({ ...loginuser , [name] : value})
+    }
+    const loginHandleSubmit = async () => {
+        const option = {
+            headers: {
+                "content-Type" : "application/json"
+            }
+        }
+        try {
+            /* const response = await axios.post("http://localhost:8080/login" , JSON.stringify(loginuser),option); */
+            console.log(loginuser);
+        }catch{
+            console.log("에러");
+        }
+    }
+    
+    
+    return (
+        <div css={mainContainer}>
+            <header css={header}>
+                <div css={loginText}>로그인</div>
+            </header>
+            <main css={main}>
+                <input css={idInput} onChange={handleChange} type="text" name="username" placeholder='아이디를 입력해주세요' />
+                <input css={passwordInput} onChange={handleChange} name="password" type="password" placeholder='비밀번호를 입력해주세요'/>
+            </main>
+            <footer css={footer}>
+                <button css= {forgot} onClick={forgotHandleSubmit}>아이디/비밀번호 찾기</button>
+                <button css={loginButton} onClick={loginHandleSubmit}>로그인</button>
+                <button >회원가입</button>
+            </footer>
+        </div>
+    );
+};
+
+export default Login;
